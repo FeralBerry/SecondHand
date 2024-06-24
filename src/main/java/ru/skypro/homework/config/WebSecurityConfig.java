@@ -42,7 +42,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/ads/**", "/users/**").permitAll()
+                        .requestMatchers(AUTH_WHITELIST)
+                        .permitAll()
+                        .requestMatchers("/ads/**", "/users/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
