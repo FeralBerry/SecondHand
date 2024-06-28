@@ -1,17 +1,22 @@
 package ru.skypro.homework.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "avatars")
-public class Avatar {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "images")
+public class Image {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @EqualsAndHashCode.Include
+    private Long id;
 
     @Column(name = "image_path")
     private String imagePath;
