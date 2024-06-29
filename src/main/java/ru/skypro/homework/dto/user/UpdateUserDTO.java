@@ -1,15 +1,15 @@
 package ru.skypro.homework.dto.user;
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUser {
+public class UpdateUserDTO {
 
     @Size(min = 3, max = 10)
     private String firstName;

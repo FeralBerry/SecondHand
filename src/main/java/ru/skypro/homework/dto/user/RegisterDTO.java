@@ -1,16 +1,12 @@
 package ru.skypro.homework.dto.user;
 
+import lombok.Data;
+import ru.skypro.homework.entity.enums.Role;
+
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import ru.skypro.homework.dto.enums.Role;
-
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Register {
+public class RegisterDTO {
 
     @Size(min = 4, max = 32)
     private String username;

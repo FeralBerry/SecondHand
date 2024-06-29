@@ -1,20 +1,19 @@
 package ru.skypro.homework.dto.ad;
 
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateOrUpdateAd {
+public class AdDTO { 
 
-    @Size(min = 4, max = 32)
+    private Long author;
+    private String image;
+    private Long pk;
+    private Integer price;
     private String title;
 
-    private Integer price;
-
-    @Size(min = 8, max = 64)
-    private String description;
 }
