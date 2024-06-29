@@ -18,7 +18,6 @@ import ru.skypro.homework.service.AdService;
 @Slf4j
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-@Transactional
 public class AdServiceImpl implements AdService {
     private final AdRepository adRepository;
 

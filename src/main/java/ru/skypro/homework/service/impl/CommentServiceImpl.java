@@ -17,7 +17,6 @@ import ru.skypro.homework.service.CommentService;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Slf4j
-@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;

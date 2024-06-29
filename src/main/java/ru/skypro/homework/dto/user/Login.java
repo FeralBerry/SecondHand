@@ -2,7 +2,7 @@ package ru.skypro.homework.dto.user;
 
 import lombok.Data;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 @Data
 public class Login {
 

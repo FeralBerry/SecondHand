@@ -1,13 +1,10 @@
 package ru.skypro.homework.entity;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 
 @Entity
@@ -23,9 +20,6 @@ public class Comment {
     private Long id;
 
     private String text;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)

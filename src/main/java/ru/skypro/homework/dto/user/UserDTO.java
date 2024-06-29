@@ -15,6 +15,6 @@ public class UserDTO {
     private String lastName;
     private String phone;
     private String role;
-    private String image;
+    private String avatar;
 
 }

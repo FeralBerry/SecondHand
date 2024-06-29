@@ -3,6 +3,7 @@ package ru.skypro.homework.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-     @PatchMapping("/me")
+    @PatchMapping(value ="/me", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, "image/*"})
     public ResponseEntity<?> updateUserData(@RequestBody UpdateUserDTO updateUserDTO) {
         UpdateUserDTO user = userService.updateUser(updateUserDTO);
         return ResponseEntity.ok(user);
