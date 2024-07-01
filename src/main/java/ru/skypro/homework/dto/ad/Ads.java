@@ -10,8 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ads {
-
     private Long count;
-
     private List<AdDTO> results;
 }

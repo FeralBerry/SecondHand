@@ -1,7 +1,5 @@
 package ru.skypro.homework.service.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,20 +9,32 @@ import ru.skypro.homework.dto.ad.Ads;
 import ru.skypro.homework.dto.ad.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ad.ExtendedAd;
 import ru.skypro.homework.entity.Ad;
+import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.service.AdService;
 
 @Service
 @Slf4j
-@AllArgsConstructor
-@NoArgsConstructor(force = true)
 public class AdServiceImpl implements AdService {
     private final AdRepository adRepository;
+    private final AdMapper adMapper;
 
+    public AdServiceImpl(AdRepository adRepository, AdMapper adMapper) {
+        this.adRepository = adRepository;
+        this.adMapper = adMapper;
+    }
+
+    /**
+     * Метод выполняется только для чтения, что оптимизирует производительность.
+     * Из базы данных вытаскивается список всех объявлений и преобразуется в объект DTO Ads
+     * @return объект DTO Ads
+     * @see AdMapper
+     */
     @Override
     @Transactional(readOnly = true)
     public Ads getAll() {
-        return null;
+        var adsList = adRepository.findAll();
+        return adMapper.toAds(adsList);
     }
 
     @Override
