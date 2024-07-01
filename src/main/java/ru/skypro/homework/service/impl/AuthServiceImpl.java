@@ -1,47 +1,76 @@
 package ru.skypro.homework.service.impl;
 
-import org.springframework.security.core.userdetails.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.skypro.homework.dto.Register;
+import ru.skypro.homework.dto.user.RegisterDTO;
+import ru.skypro.homework.entity.User;
+import ru.skypro.homework.exception.IncorrectPasswordException;
+import ru.skypro.homework.exception.UserAlreadyExistException;
+import ru.skypro.homework.mapper.UserMapper;
+import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AuthService;
 
+import java.util.Optional;
+
+
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    private final UserDetailsManager manager;
-    private final PasswordEncoder encoder;
-
-    public AuthServiceImpl(UserDetailsManager manager,
-                           PasswordEncoder passwordEncoder) {
-        this.manager = manager;
-        this.encoder = passwordEncoder;
+    public AuthServiceImpl(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository, UserMapper userMapper) {
+        this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
+    /**
+     *
+     * @param userName
+     * @param password
+     * @return
+     */
     @Override
     public boolean login(String userName, String password) {
-        if (!manager.userExists(userName)) {
-            return false;
+        assert userDetailsService != null;
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        assert passwordEncoder != null;
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            String msg = "Incorrect password for user " + userName;
+            log.info(msg);
+            throw new IncorrectPasswordException(msg);
         }
-        UserDetails userDetails = manager.loadUserByUsername(userName);
-        return encoder.matches(password, userDetails.getPassword());
+        log.info("User login " + userName);
+        return true;
     }
 
+    /**
+     * Регистрация нового пользователя
+     * @param registerDTO объект в формате DTO
+     * @return true если успешная регистрация и
+     * UserAlreadyExistException, если пользователь уже с такими данными существует
+     */
     @Override
-    public boolean register(Register register) {
-        if (manager.userExists(register.getUsername())) {
-            return false;
+    public boolean register(RegisterDTO registerDTO) {
+        Optional<User> user = userRepository.findByUsername(registerDTO.getUsername());
+        if (user.isPresent()) {
+            String msg = "User already exist " + registerDTO.getUsername();
+            log.info(msg);
+            throw new UserAlreadyExistException(msg);
+        } else {
+            System.out.println("reg");
+            registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+            userRepository.save(userMapper.registerDTOToUser(registerDTO));
+            log.info("User register " + registerDTO.getUsername());
+            return true;
         }
-        manager.createUser(
-                User.builder()
-                        .passwordEncoder(this.encoder::encode)
-                        .password(register.getPassword())
-                        .username(register.getUsername())
-                        .roles(register.getRole().name())
-                        .build());
-        return true;
     }
 
 }
