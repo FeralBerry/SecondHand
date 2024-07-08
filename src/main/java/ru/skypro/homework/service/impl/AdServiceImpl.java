@@ -13,8 +13,6 @@ import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.service.AdService;
 
-import java.util.List;
-
 @Service
 @Slf4j
 public class AdServiceImpl implements AdService {
@@ -35,8 +33,7 @@ public class AdServiceImpl implements AdService {
     @Override
     @Transactional(readOnly = true)
     public Ads getAll() {
-        log.info("Получение списка всех объявлений.");
-        List<Ad> adsList = adRepository.findAll();
+        var adsList = adRepository.findAll();
         return adMapper.toAds(adsList);
     }
 
