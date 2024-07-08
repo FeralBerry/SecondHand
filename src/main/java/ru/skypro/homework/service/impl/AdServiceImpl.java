@@ -18,8 +18,6 @@ import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
-import java.util.List;
-
 @Service
 @Slf4j
 public class AdServiceImpl implements AdService {
@@ -44,8 +42,7 @@ public class AdServiceImpl implements AdService {
     @Override
     @Transactional(readOnly = true)
     public Ads getAll() {
-        log.info("Получение списка всех объявлений.");
-        List<Ad> adsList = adRepository.findAll();
+        var adsList = adRepository.findAll();
         return adMapper.toAds(adsList);
     }
     @Override
