@@ -1,10 +1,11 @@
 package ru.skypro.homework.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 
 @Entity

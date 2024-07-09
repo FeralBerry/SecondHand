@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import ru.skypro.homework.dto.user.RegisterDTO;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exception.IncorrectPasswordException;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 
 @Service
+@CrossOrigin(value = "http://localhost:3000")
 @Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserDetailsService userDetailsService;
@@ -37,7 +39,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean login(String userName, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        log.info(userDetailsService.loadUserByUsername(userName).getUsername());
         if (!bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
             String msg = "Incorrect password for user " + userName;
             log.info(msg);

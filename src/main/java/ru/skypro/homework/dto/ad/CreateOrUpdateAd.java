@@ -1,9 +1,10 @@
 package ru.skypro.homework.dto.ad;
 
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor

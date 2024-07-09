@@ -16,6 +16,7 @@ import ru.skypro.homework.service.UserService;
 @RestController
 @RequestMapping("users")
 @RequiredArgsConstructor
+@CrossOrigin(value = "http://localhost:3000")
 @Validated
 @Slf4j
 public class UserController {
@@ -31,6 +32,7 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<?> getUserData() {
         UserDTO userDTO = userService.getUserData();
+        System.out.println(userDTO);
         return ResponseEntity.ok(userDTO);
     }
 

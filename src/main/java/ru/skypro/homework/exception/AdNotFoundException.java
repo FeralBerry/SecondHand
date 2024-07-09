@@ -1,7 +1,7 @@
 package ru.skypro.homework.exception;
 
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 
 public class AdNotFoundException extends EntityNotFoundException {
     public AdNotFoundException(String message) {

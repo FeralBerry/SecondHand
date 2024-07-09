@@ -4,11 +4,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.skypro.homework.entity.User;
+import ru.skypro.homework.exception.UserNotFoundException;
 import ru.skypro.homework.repository.UserRepository;
 
-import java.util.Optional;
+import java.util.Collections;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -25,10 +24,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @throws UsernameNotFoundException ошибка если такой пользователь не найден в БД
      */
     @Override
-    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-        return user.map(ru.skypro.homework.config.MyUserDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findByUsername(username)
+                .map(user -> new org.springframework.security.core.userdetails.User(
+                        user.getUsername(),
+                        user.getPassword(),
+                        Collections.singleton(user.getRole())
+                ))
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с таким именем не найден: " + username));
     }
 }

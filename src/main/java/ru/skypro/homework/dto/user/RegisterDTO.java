@@ -3,8 +3,8 @@ package ru.skypro.homework.dto.user;
 import lombok.Data;
 import ru.skypro.homework.entity.enums.Role;
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 @Data
 public class RegisterDTO {
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import ru.skypro.homework.entity.enums.Role;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
