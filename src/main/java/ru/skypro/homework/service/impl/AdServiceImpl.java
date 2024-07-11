@@ -18,6 +18,8 @@ import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class AdServiceImpl implements AdService {

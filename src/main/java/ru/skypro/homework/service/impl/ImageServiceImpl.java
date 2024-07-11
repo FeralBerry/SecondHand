@@ -58,7 +58,7 @@ public class ImageServiceImpl implements ImageService {
         }
 
         try {
-            String directoryPath = System.getProperty("user.dir") + "/images/";
+            String directoryPath = System.getProperty("user.dir") + "/image/";
             String filename = generateUniqueFilename(originalFilename);
             String filePath = directoryPath + filename;
 
@@ -76,7 +76,7 @@ public class ImageServiceImpl implements ImageService {
             imageFile.transferTo(file);
 
             Image image = new Image();
-            image.setImagePath(filePath);
+            image.setImagePath(filename);
             image = imageRepository.save(image);
 
             log.info(LOG_IMAGE_SAVED_MSG, filePath);
