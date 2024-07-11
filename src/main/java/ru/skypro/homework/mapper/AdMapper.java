@@ -23,7 +23,7 @@ public interface AdMapper {
     @Mapping(target = "comments", ignore = true)
     Ad toAdEntity(CreateOrUpdateAd ad);
 
-    @Mapping(target = "image", expression = "java(ad.getImage() != null ? \"/image/\" + ad.getImage().getId() : null)")
+    @Mapping(target = "image", expression = "java(ad.getImage() != null ? \"/image/\" + ad.getImage().getImagePath() : null)")
     @Mapping(target = "pk", source = "ad.id")
     @Mapping(target = "authorFirstName", source = "ad.user.firstName")
     @Mapping(target = "authorLastName", source = "ad.user.lastName")
@@ -31,7 +31,7 @@ public interface AdMapper {
     @Mapping(target = "phone", source = "ad.user.phone")
     ExtendedAd toExtendedAd(Ad ad);
 
-    @Mapping(target = "image", expression = "java(ad.getImage() != null ? \"/image/\" + ad.getImage().getId() : null)")
+    @Mapping(target = "image", expression = "java(ad.getImage() != null ? \"/image/\" + ad.getImage().getImagePath() : null)")
     @Mapping(target = "author", source = "ad.user.id")
     @Mapping(target = "pk", source = "ad.id")
     AdDTO toAdDTO(Ad ad);

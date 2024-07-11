@@ -8,11 +8,11 @@ import ru.skypro.homework.entity.Comment;
 import java.util.List;
 import java.util.Optional;
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Integer> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findByAdId(Integer adId);
+    List<Comment> findByAdId(Long adId);
 
-    Optional<Comment> findByAdIdAndId(Integer adId, Integer commentId);
+    Optional<Comment> findByAdIdAndId(Long adId, Long commentId);
 
 
 }

@@ -3,7 +3,7 @@ package ru.skypro.homework.dto.comment;
 
 import lombok.Data;
 
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Size;
 @Data
 public class CreateOrUpdateComment {
 

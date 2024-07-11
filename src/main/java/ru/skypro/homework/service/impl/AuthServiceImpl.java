@@ -3,7 +3,7 @@ package ru.skypro.homework.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.user.RegisterDTO;
 import ru.skypro.homework.entity.User;
@@ -20,29 +20,24 @@ import java.util.Optional;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserDetailsService userDetailsService;
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    public AuthServiceImpl(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository, UserMapper userMapper) {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    public AuthServiceImpl(UserDetailsService userDetailsService, UserRepository userRepository, UserMapper userMapper) {
         this.userDetailsService = userDetailsService;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
-
     /**
-     *
-     * @param userName
-     * @param password
-     * @return
+     * Метод проверки пользователя и авторизации.
+     * @param userName имя пользователя вводимое пользователем
+     * @param password пароль вводимый пользователем
+     * @return true при успешной регистрации, IncorrectPasswordException при неверном пароле
      */
     @Override
     public boolean login(String userName, String password) {
-        assert userDetailsService != null;
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        assert passwordEncoder != null;
-        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
             String msg = "Incorrect password for user " + userName;
             log.info(msg);
             throw new IncorrectPasswordException(msg);
@@ -50,7 +45,6 @@ public class AuthServiceImpl implements AuthService {
         log.info("User login " + userName);
         return true;
     }
-
     /**
      * Регистрация нового пользователя
      * @param registerDTO объект в формате DTO
@@ -65,8 +59,7 @@ public class AuthServiceImpl implements AuthService {
             log.info(msg);
             throw new UserAlreadyExistException(msg);
         } else {
-            System.out.println("reg");
-            registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+            registerDTO.setPassword(bCryptPasswordEncoder.encode(registerDTO.getPassword()));
             userRepository.save(userMapper.registerDTOToUser(registerDTO));
             log.info("User register " + registerDTO.getUsername());
             return true;
